@@ -1,0 +1,75 @@
+---
+const ARTICLES = [
+	{
+		title: 'How instant martian naps work',
+		contentId: 'instant-martian-naps',
+	},
+	{
+		title: 'The future of interplanetary travel',
+		contentId: 'interplanetary-travel',
+	},
+	{
+		title: 'Sustainable living on Mars',
+		contentId: 'sustainable-living-mars',
+	},
+	{
+		title: 'Terraforming: Myth or Reality?',
+		contentId: 'terraforming-myth-reality',
+	},
+	{
+		title: 'Martian agriculture: Growing food on the red planet',
+		contentId: 'martian-agriculture',
+	},
+	{
+		title: 'The psychology of long-term space travel',
+		contentId: 'psychology-space-travel',
+	},
+];
+
+const getArticleCardProps = (index: number) => {
+	const variants = [
+		'col-md-4 col-lg-6',
+		'col-md-8 col-lg-6',
+		'col-md-6 col-lg-4',
+		'col-md-6 col-lg-8',
+		'col-md-12 col-lg-4',
+		'col-md-6 col-lg-8',
+	];
+	const heights = ['h-200', 'h-300', 'h-250', 'h-350', 'h-180', 'h-280'];
+	const colors = [
+		'bg-primary',
+		'bg-secondary',
+		'bg-success',
+		'bg-info',
+		'bg-warning',
+		'bg-danger',
+	];
+
+	return {
+		variant: variants[index % variants.length],
+		height: heights[index % heights.length],
+		color: colors[index % colors.length],
+	};
+};
+---
+
+<section class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+	{
+		ARTICLES.map((article, index) => {
+			const { variant, height, color } = getArticleCardProps(index);
+
+			return (
+				<div class={`col ${variant}`}>
+					<div
+						class={`card ${height} ${color} text-white d-flex align-items-center justify-content-center`}
+					>
+						<div class="card-body text-center">
+							<h5 class="card-title">{article.title}</h5>
+							<p class="card-text opacity-75">{article.contentId}</p>
+						</div>
+					</div>
+				</div>
+			);
+		})
+	}
+</section>

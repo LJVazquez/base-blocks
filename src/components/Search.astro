@@ -1,0 +1,38 @@
+---
+import { getCharacters } from '@lib/rick-morty-api';
+
+const characters = await getCharacters();
+---
+
+<section class="p-3 bg-info rounded-3 mb-3">
+	<div class="bg-light rounded-3 p-3">
+		<h1>Barra de busqueda</h1>
+		<search>
+			<form action="">
+				<select class="form-select mb-3" aria-label="Desplegable de busqueda">
+					<option value="0" selected disabled>Desplegable de busqueda</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+				</select>
+
+				<select class="form-select mb-3" aria-label="Desplegable de busqueda 2">
+					<option value="0" selected disabled
+						>Desplegable de busqueda con fetch</option
+					>
+					{
+						characters.results.map(
+							(character: { id: string; name: string }) => (
+								<option value={character.id}>{character.name}</option>
+							)
+						)
+					}
+				</select>
+
+				<div class="d-grid gap-2">
+					<button class="btn btn-primary" type="button">Buscar</button>
+				</div>
+			</form>
+		</search>
+	</div>
+</section>
