@@ -15,12 +15,13 @@ import Navbar from '@components/Navbar.astro';
 			integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
 			crossorigin="anonymous"
 		/>
+		<link rel="stylesheet" href="/src/shared/styles.css" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Basic Blocks</title>
 	</head>
 	<body>
 		<Navbar />
-		<main class="container">
+		<main>
 			<slot />
 		</main>
 		<Footer />

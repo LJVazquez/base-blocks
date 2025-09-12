@@ -1,0 +1,84 @@
+---
+const {
+	title = 'Test title',
+	subtitle = 'This is a subtitle that provides additional context and information about the hero section.',
+	backgroundImage = 'https://images.pexels.com/photos/161959/prehistoric-times-urtier-museum-exhibit-161959.jpeg',
+	ctaText = 'Ready to get started?',
+	ctaPrimaryButton = 'Get Started',
+	ctaSecondaryButton = 'Learn More',
+	ctaPrimaryLink = '#',
+	ctaSecondaryLink = '#',
+} = Astro.props;
+---
+
+<section class="hero-section position-relative overflow-hidden">
+	<div
+		class="hero-bg position-absolute top-0 start-0 w-100"
+		style={`background-image: url(${backgroundImage})`}
+		id="hero-bg"
+	>
+	</div>
+	<div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+
+	<div class="container position-relative h-100">
+		<div class="row h-100 align-items-center">
+			<div class="col-lg-6 text-start">
+				<h1 class="display-2 fw-bold text-white mb-4 fade-in">
+					{title}
+				</h1>
+				<p class="lead text-white mb-5 fade-in-delay">
+					{subtitle}
+				</p>
+				<div class="fade-in-delay-2">
+					<p class="h5 text-white mb-4">{ctaText}</p>
+					<div class="d-flex gap-3 flex-wrap">
+						<a href={ctaPrimaryLink} class="btn btn-primary btn-lg px-4 py-3">
+							{ctaPrimaryButton}
+						</a>
+						<a
+							href={ctaSecondaryLink}
+							class="btn btn-outline-light btn-lg px-4 py-3"
+						>
+							{ctaSecondaryButton}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero-section {
+		height: 80vh;
+		min-height: 500px;
+		max-height: 700px;
+	}
+
+	.hero-bg {
+		height: 120%;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		will-change: transform;
+		transform: translateZ(0);
+	}
+
+	.hero-overlay {
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 1;
+	}
+
+	.container {
+		z-index: 2;
+	}
+</style>
+
+<script>
+	import { parallaxOnScroll } from '../shared/fx';
+
+	window.addEventListener('scroll', () => {
+		parallaxOnScroll('hero-bg');
+	});
+</script>
