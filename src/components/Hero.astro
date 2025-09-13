@@ -1,4 +1,6 @@
 ---
+import '../shared/css/fade-in-up.css';
+
 const {
 	title = 'Test title',
 	subtitle = 'This is a subtitle that provides additional context and information about the hero section.',
@@ -76,7 +78,7 @@ const {
 </style>
 
 <script>
-	import { parallaxOnScroll } from '../shared/fx';
+	import { parallaxOnScroll } from '../shared/scripts/fx';
 
 	window.addEventListener('scroll', () => {
 		parallaxOnScroll('hero-bg');
