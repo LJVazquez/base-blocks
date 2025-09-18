@@ -7,6 +7,7 @@ import MiniCards from '@components/MiniCards.astro';
 import Layout from '@layouts/Layout.astro';
 import Hero from '@components/Hero.astro';
 import KPI from '@components/KPI.astro';
+import SplitForm from '@components/SplitForm.astro';
 
 const mockHeroData = {
 	title: 'Test title',
@@ -56,4 +57,5 @@ const mockKpis = [
 <Layout>
 	<Hero {...mockHeroData} />
 	<KPI kpis={mockKpis} />
+	<SplitForm />
 </Layout>
