@@ -1,13 +1,14 @@
 ---
 import { User, DollarSign, ReceiptText, Package } from '@lucide/astro';
-import Search from '@components/Search.astro';
-import Bento from '@components/Bento.astro';
-import Reels from '@components/Reels.astro';
-import MiniCards from '@components/MiniCards.astro';
 import Layout from '@layouts/Layout.astro';
-import Hero from '@components/Hero.astro';
-import KPI from '@components/KPI.astro';
-import SplitForm from '@components/SplitForm.astro';
+import Search from '@components/blocks/Search.astro';
+import Bento from '@components/blocks/Bento.astro';
+import Reels from '@components/blocks/Reels.astro';
+import MiniCards from '@components/blocks/MiniCards.astro';
+import Hero from '@components/blocks/Hero.astro';
+import KPI from '@components/blocks/KPI.astro';
+import SplitForm from '@components/blocks/SplitForm.astro';
+import SliderShowcase from '@components/SliderShowcase.astro';
 
 const mockHeroData = {
 	title: 'Test title',
@@ -52,10 +53,52 @@ const mockKpis = [
 		color: 'warning' as const,
 	},
 ];
+
+const mockKpis2 = [
+	{
+		title: 'Total Users',
+		value: 12345,
+		change: 5.2,
+		icon: User,
+		color: 'warning' as const,
+	},
+	{
+		title: 'Total Revenue',
+		value: '$ 98765',
+		change: -2.1,
+		icon: DollarSign,
+		color: 'danger' as const,
+	},
+	{
+		title: 'Total Orders',
+		value: 543,
+		change: 10.5,
+		icon: ReceiptText,
+		color: 'success' as const,
+	},
+	{
+		title: 'Total Products',
+		value: 123,
+		change: 0,
+		icon: Package,
+		color: 'primary' as const,
+	},
+];
+
+const sliderItems = [
+	{
+		component: KPI,
+		props: { kpis: mockKpis },
+	},
+	{
+		component: KPI,
+		props: { kpis: mockKpis2 },
+	},
+];
 ---
 
 <Layout>
 	<Hero {...mockHeroData} />
-	<KPI kpis={mockKpis} />
+	<SliderShowcase items={sliderItems} />
 	<SplitForm />
 </Layout>

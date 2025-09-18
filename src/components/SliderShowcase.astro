@@ -1,0 +1,151 @@
+---
+import { ChevronLeft, ChevronRight } from '@lucide/astro';
+
+interface SliderItem {
+	component: any;
+	props?: Record<string, any>;
+}
+
+interface Props {
+	items: SliderItem[];
+}
+
+const { items = [] } = Astro.props;
+---
+
+<div class={`position-relative w-100 overflow-hidden`} data-slider>
+	<div class="position-relative w-100 h-100">
+		<div class="d-flex slider-track" data-slider-track>
+			{
+				items.map((item, index) => {
+					const Component = item.component;
+					return (
+						<div class="flex-shrink-0 w-100 h-100" data-slide={index}>
+							<Component {...(item.props || {})} />
+						</div>
+					);
+				})
+			}
+		</div>
+
+		{
+			items.length > 1 && (
+				<>
+					<button
+						class="btn btn-light position-absolute top-50 translate-middle-y border-0 rounded-circle"
+						data-slider-prev
+						aria-label="Anterior"
+						style="width: 48px; height: 48px; left: 16px; z-index: 10;"
+					>
+						<ChevronLeft size={24} />
+					</button>
+
+					<button
+						class="btn btn-light position-absolute top-50 translate-middle-y border-0 rounded-circle"
+						data-slider-next
+						aria-label="Siguiente"
+						style="width: 48px; height: 48px; right: 16px; z-index: 10;"
+					>
+						<ChevronRight size={24} />
+					</button>
+
+					<div
+						class="position-absolute start-50 translate-middle-x d-flex gap-2"
+						style="bottom: 16px; z-index: 10;"
+					>
+						{items.map((_, index) => (
+							<button
+								class="border-0 rounded-circle "
+								data-slider-indicator={index}
+								aria-label={`Ir al slide ${index + 1}`}
+								style="width: 12px; height: 12px; background: rgba(255, 255, 255, 0.5);"
+							/>
+						))}
+					</div>
+				</>
+			)
+		}
+	</div>
+</div>
+
+<style>
+	.slider-track {
+		transition: transform 0.3s ease-in-out;
+	}
+</style>
+
+<script>
+	class Slider {
+		private container: HTMLElement;
+		private track: HTMLElement;
+		private slides: HTMLElement[];
+		private prevButton: HTMLButtonElement;
+		private nextButton: HTMLButtonElement;
+		private indicators: HTMLButtonElement[];
+		private currentIndex: number = 0;
+
+		constructor(container: HTMLElement) {
+			this.container = container;
+			this.track = container.querySelector(
+				'[data-slider-track]'
+			) as HTMLElement;
+			this.slides = Array.from(container.querySelectorAll('[data-slide]'));
+			this.prevButton = container.querySelector(
+				'[data-slider-prev]'
+			) as HTMLButtonElement;
+			this.nextButton = container.querySelector(
+				'[data-slider-next]'
+			) as HTMLButtonElement;
+			this.indicators = Array.from(
+				container.querySelectorAll('[data-slider-indicator]')
+			);
+
+			this.init();
+		}
+
+		private init() {
+			this.updateSlider();
+			this.bindEvents();
+		}
+
+		private bindEvents() {
+			this.prevButton?.addEventListener('click', () => this.prev());
+			this.nextButton?.addEventListener('click', () => this.next());
+
+			this.indicators?.forEach((indicator, index) => {
+				indicator.addEventListener('click', () => this.goTo(index));
+			});
+		}
+
+		private prev() {
+			this.currentIndex =
+				this.currentIndex > 0 ? this.currentIndex - 1 : this.slides.length - 1;
+			this.updateSlider();
+		}
+
+		private next() {
+			this.currentIndex =
+				this.currentIndex < this.slides.length - 1 ? this.currentIndex + 1 : 0;
+			this.updateSlider();
+		}
+
+		private goTo(index: number) {
+			this.currentIndex = index;
+			this.updateSlider();
+		}
+
+		private updateSlider() {
+			const translateX = -this.currentIndex * 100;
+			this.track.style.transform = `translateX(${translateX}%)`;
+
+			this.indicators?.forEach((indicator, index) => {
+				indicator.classList.toggle('active', index === this.currentIndex);
+			});
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const sliders = document.querySelectorAll('[data-slider]');
+		sliders.forEach((slider) => new Slider(slider as HTMLElement));
+	});
+</script>
