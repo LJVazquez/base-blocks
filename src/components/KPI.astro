@@ -1,0 +1,54 @@
+---
+import { type Icon as IconType } from '@lucide/astro';
+export interface Props {
+	kpis: Array<{
+		title: string;
+		value: string | number;
+		change?: number;
+		icon?: typeof IconType;
+		color?: 'primary' | 'success' | 'danger' | 'warning' | 'info';
+	}>;
+}
+
+const { kpis } = Astro.props;
+---
+
+<section class="py-5">
+	<div class="container">
+		<div class="row g-4">
+			{
+				kpis.map((kpi) => {
+					return (
+						<div class="col-md-6 col-lg-3">
+							<div class="card h-100 border-0 shadow">
+								<div class="card-body d-flex align-items-center">
+									{kpi.icon && (
+										<div
+											class={`me-3 p-3 rounded-circle bg-${kpi.color || 'primary'} bg-opacity-50`}
+										>
+											<kpi.icon />
+										</div>
+									)}
+									<div class="flex-grow-1">
+										<h6 class="card-title text-muted mb-1">{kpi.title}</h6>
+										<h3 class="mb-0 fw-semibold">{kpi.value}</h3>
+										{kpi.change !== undefined && (
+											<small
+												class={`text-${kpi.change >= 0 ? 'success' : 'danger'}`}
+											>
+												<i
+													class={`bi bi-arrow-${kpi.change >= 0 ? 'up' : 'down'}`}
+												/>
+												{Math.abs(kpi.change)}%
+											</small>
+										)}
+									</div>
+								</div>
+							</div>
+						</div>
+					);
+				})
+			}
+		</div>
+	</div>
+</section>

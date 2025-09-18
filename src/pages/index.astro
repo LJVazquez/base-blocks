@@ -1,16 +1,59 @@
 ---
+import { User, DollarSign, ReceiptText, Package } from '@lucide/astro';
 import Search from '@components/Search.astro';
 import Bento from '@components/Bento.astro';
 import Reels from '@components/Reels.astro';
 import MiniCards from '@components/MiniCards.astro';
 import Layout from '@layouts/Layout.astro';
 import Hero from '@components/Hero.astro';
+import KPI from '@components/KPI.astro';
+
+const mockHeroData = {
+	title: 'Test title',
+	subtitle:
+		'This is a subtitle that provides additional context and information about the hero section.',
+	backgroundImage:
+		'https://images.pexels.com/photos/161959/prehistoric-times-urtier-museum-exhibit-161959.jpeg',
+	ctaText: 'Ready to get started?',
+	ctaPrimaryButton: 'Get Started',
+	ctaSecondaryButton: 'Learn More',
+	ctaPrimaryLink: '#',
+	ctaSecondaryLink: '#',
+};
+
+const mockKpis = [
+	{
+		title: 'Total Users',
+		value: 12345,
+		change: 5.2,
+		icon: User,
+		color: 'primary' as const,
+	},
+	{
+		title: 'Total Revenue',
+		value: '$ 98765',
+		change: -2.1,
+		icon: DollarSign,
+		color: 'success' as const,
+	},
+	{
+		title: 'Total Orders',
+		value: 543,
+		change: 10.5,
+		icon: ReceiptText,
+		color: 'danger' as const,
+	},
+	{
+		title: 'Total Products',
+		value: 123,
+		change: 0,
+		icon: Package,
+		color: 'warning' as const,
+	},
+];
 ---
 
 <Layout>
-	<Hero />
-	<Search />
-	<Bento />
-	<Reels />
-	<MiniCards />
+	<Hero {...mockHeroData} />
+	<KPI kpis={mockKpis} />
 </Layout>
