@@ -5,19 +5,19 @@ const {
 	title,
 	subtitle,
 	backgroundImage,
-	ctaText,
 	ctaPrimaryButton,
 	ctaSecondaryButton,
 	ctaPrimaryLink,
 	ctaSecondaryLink,
+	ctaText,
 } = Astro.props;
 ---
 
 <section class="hero-section position-relative overflow-hidden mb-5">
 	<div
 		class="hero-bg position-absolute top-0 start-0 w-100"
-		style={`background-image: url(${backgroundImage})`}
-		id="hero-bg"
+		style={backgroundImage ? `background-image: url(${backgroundImage})` : null}
+		id="hero-bg-simple-left"
 	>
 	</div>
 	<div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"></div>
@@ -51,10 +51,12 @@ const {
 </section>
 
 <style>
+	/*to-do parametrizar altura y gradiente */
 	.hero-section {
 		height: 80vh;
 		min-height: 500px;
 		max-height: 700px;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #2d1b69 100%);
 	}
 
 	.hero-bg {
@@ -81,6 +83,6 @@ const {
 	import { parallaxOnScroll } from '@shared/scripts/fx';
 
 	window.addEventListener('scroll', () => {
-		parallaxOnScroll('hero-bg');
+		parallaxOnScroll('hero-bg-simple-left');
 	});
 </script>

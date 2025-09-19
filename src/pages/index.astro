@@ -1,11 +1,8 @@
 ---
 import { User, DollarSign, ReceiptText, Package } from '@lucide/astro';
 import Layout from '@layouts/Layout.astro';
-import Search from '@components/blocks/Search.astro';
-import Bento from '@components/blocks/Bento.astro';
-import Reels from '@components/blocks/Reels.astro';
-import MiniCards from '@components/blocks/MiniCards.astro';
-import Hero from '@components/blocks/Hero.astro';
+import HeroParallaxSimpleLeft from '@components/blocks/heroes/HeroParallaxSimpleLeft.astro';
+import HeroParallaxSimpleCenteredAnnouncement from '@components/blocks/heroes/HeroParallaxSimpleCenteredAnnouncement.astro';
 import KPI from '@components/blocks/KPI.astro';
 import SplitForm from '@components/blocks/SplitForm.astro';
 import SliderShowcase from '@components/SliderShowcase.astro';
@@ -21,84 +18,46 @@ const mockHeroData = {
 	ctaSecondaryButton: 'Learn More',
 	ctaPrimaryLink: '#',
 	ctaSecondaryLink: '#',
+	announcementLink: '#',
+	announcementText: 'Announcement text',
 };
 
-const mockKpis = [
+const heroComponents = [
 	{
-		title: 'Total Users',
-		value: 12345,
-		change: 5.2,
-		icon: User,
-		color: 'primary' as const,
+		name: 'Hero Parallax Simple Left',
+		component: HeroParallaxSimpleLeft,
+		variants: [
+			{ name: 'default', props: mockHeroData },
+			{
+				name: 'no image',
+				props: { ...mockHeroData, backgroundImage: null },
+			},
+		],
 	},
 	{
-		title: 'Total Revenue',
-		value: '$ 98765',
-		change: -2.1,
-		icon: DollarSign,
-		color: 'success' as const,
-	},
-	{
-		title: 'Total Orders',
-		value: 543,
-		change: 10.5,
-		icon: ReceiptText,
-		color: 'danger' as const,
-	},
-	{
-		title: 'Total Products',
-		value: 123,
-		change: 0,
-		icon: Package,
-		color: 'warning' as const,
-	},
-];
-
-const mockKpis2 = [
-	{
-		title: 'Total Users',
-		value: 12345,
-		change: 5.2,
-		icon: User,
-		color: 'warning' as const,
-	},
-	{
-		title: 'Total Revenue',
-		value: '$ 98765',
-		change: -2.1,
-		icon: DollarSign,
-		color: 'danger' as const,
-	},
-	{
-		title: 'Total Orders',
-		value: 543,
-		change: 10.5,
-		icon: ReceiptText,
-		color: 'success' as const,
-	},
-	{
-		title: 'Total Products',
-		value: 123,
-		change: 0,
-		icon: Package,
-		color: 'primary' as const,
-	},
-];
-
-const sliderItems = [
-	{
-		component: KPI,
-		props: { kpis: mockKpis },
-	},
-	{
-		component: KPI,
-		props: { kpis: mockKpis2 },
+		name: 'Hero Parallax Simple Centered Announcement',
+		component: HeroParallaxSimpleCenteredAnnouncement,
+		variants: [
+			{ name: 'default', props: mockHeroData },
+			{ name: 'no image', props: { ...mockHeroData, backgroundImage: null } },
+			{
+				name: 'no announcement',
+				props: { ...mockHeroData, announcementText: null },
+			},
+			{
+				name: 'no image & no announcement',
+				props: {
+					...mockHeroData,
+					backgroundImage: null,
+					announcementText: null,
+				},
+			},
+		],
 	},
 ];
 ---
 
 <Layout>
-	<Hero {...mockHeroData} />
-	<SliderShowcase items={sliderItems} />
+	<SliderShowcase items={heroComponents} />
 	<SplitForm />
 </Layout>

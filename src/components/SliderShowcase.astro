@@ -2,8 +2,9 @@
 import { ChevronLeft, ChevronRight } from '@lucide/astro';
 
 interface SliderItem {
+	name: string;
 	component: any;
-	props?: Record<string, any>;
+	variants: { name: string; props?: Record<string, any> }[];
 }
 
 interface Props {
@@ -18,12 +19,41 @@ const { items = [] } = Astro.props;
 		<div class="d-flex slider-track" data-slider-track>
 			{
 				items.map((item, index) => {
-					const Component = item.component;
-					return (
-						<div class="flex-shrink-0 w-100 h-100" data-slide={index}>
-							<Component {...(item.props || {})} />
-						</div>
-					);
+					{
+						const Component = item.component;
+						return (
+							<div class="flex-shrink-0 w-100 h-100" data-slide={index}>
+								<h2 class="px-5">{item.name}</h2>
+								<div
+									class="btn-group px-5 mb-3"
+									role="group"
+									aria-label="variant buttons"
+								>
+									{item.variants.map((variant) => {
+										return (
+											<button
+												data-variant-switch
+												class="btn btn-outline-primary"
+											>
+												{variant.name}
+											</button>
+										);
+									})}
+								</div>
+								{item.variants.map((variant, i) => {
+									return (
+										<div
+											style={i > 0 ? 'display: none;' : ''}
+											data-component
+											data-variant={variant.name}
+										>
+											<Component {...(variant.props || {})} />
+										</div>
+									);
+								})}
+							</div>
+						);
+					}
 				})
 			}
 		</div>
@@ -83,6 +113,7 @@ const { items = [] } = Astro.props;
 		private nextButton: HTMLButtonElement;
 		private indicators: HTMLButtonElement[];
 		private currentIndex: number = 0;
+		private variantSwitchButtons: HTMLButtonElement[];
 
 		constructor(container: HTMLElement) {
 			this.container = container;
@@ -96,6 +127,9 @@ const { items = [] } = Astro.props;
 			this.nextButton = container.querySelector(
 				'[data-slider-next]'
 			) as HTMLButtonElement;
+			this.variantSwitchButtons = Array.from(
+				container.querySelectorAll('[data-variant-switch]')
+			) as HTMLButtonElement[];
 			this.indicators = Array.from(
 				container.querySelectorAll('[data-slider-indicator]')
 			);
@@ -111,6 +145,22 @@ const { items = [] } = Astro.props;
 		private bindEvents() {
 			this.prevButton?.addEventListener('click', () => this.prev());
 			this.nextButton?.addEventListener('click', () => this.next());
+
+			this.variantSwitchButtons?.forEach((button) => {
+				button.addEventListener('click', (e) => {
+					const variantName = button.innerText;
+
+					const currentComponents =
+						this.slides[this.currentIndex].querySelectorAll('[data-component]');
+					currentComponents.forEach((component) => {
+						if (component.getAttribute('data-variant') === variantName) {
+							(component as HTMLElement).style.display = '';
+						} else {
+							(component as HTMLElement).style.display = 'none';
+						}
+					});
+				});
+			});
 
 			this.indicators?.forEach((indicator, index) => {
 				indicator.addEventListener('click', () => this.goTo(index));

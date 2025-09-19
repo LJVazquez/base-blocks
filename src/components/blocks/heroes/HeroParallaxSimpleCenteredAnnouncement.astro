@@ -1,0 +1,122 @@
+---
+import '@shared/css/fade-in-up.css';
+
+const {
+	title,
+	subtitle,
+	backgroundImage,
+	ctaPrimaryButton,
+	ctaSecondaryButton,
+	ctaPrimaryLink,
+	ctaSecondaryLink,
+	announcementLink,
+	announcementText,
+} = Astro.props;
+---
+
+<section class="hero-section position-relative overflow-hidden mb-5">
+	<div
+		class="hero-bg position-absolute top-0 start-0 w-100"
+		style={backgroundImage ? `background-image: url(${backgroundImage})` : null}
+		id="hero-bg-simple-centered-announcement"
+	>
+	</div>
+	<div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+
+	<div class="container position-relative h-100">
+		<div class="row h-100 align-items-center justify-content-center">
+			<div class="col-lg-8 text-center">
+				{
+					announcementText && (
+						<div class="mb-4 fade-in">
+							<a
+								class="icon-link icon-link-hover badge border border-secondary fw-light p-2 text-decoration-none"
+								href={announcementLink}
+								role="button"
+							>
+								{announcementText}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="bi"
+									viewBox="0 0 16 16"
+									aria-hidden="true"
+								>
+									<path d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+								</svg>
+							</a>
+						</div>
+					)
+				}
+
+				<h1 class="fw-bold text-white mb-4 fade-in-delay">
+					{title}
+				</h1>
+
+				<p class="lead text-white mb-5 px-lg-5 fade-in-delay-2">
+					{subtitle}
+				</p>
+
+				<div class="fade-in-delay-3">
+					<div class="d-flex gap-3 justify-content-center flex-wrap">
+						<a href={ctaPrimaryLink} class="btn btn-primary btn-lg px-4 py-3">
+							{ctaPrimaryButton}
+						</a>
+						<a
+							href={ctaSecondaryLink}
+							class="btn btn-outline-light btn-lg px-4 py-3"
+						>
+							{ctaSecondaryButton}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	/*to-do parametrizar altura y gradiente */
+	.hero-section {
+		height: 80vh;
+		min-height: 500px;
+		max-height: 700px;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #2d1b69 100%);
+	}
+
+	.hero-bg {
+		height: 120%;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		will-change: transform;
+		transform: translateZ(0);
+	}
+
+	.hero-overlay {
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 1;
+	}
+
+	.container {
+		z-index: 2;
+	}
+
+	.badge {
+		transition: all 0.3s ease;
+	}
+
+	.badge:hover {
+		background: rgba(255, 255, 255, 0.15);
+		color: white;
+		transform: translateY(-1px);
+	}
+</style>
+
+<script>
+	import { parallaxOnScroll } from '@shared/scripts/fx';
+
+	window.addEventListener('scroll', () => {
+		parallaxOnScroll('hero-bg-simple-centered-announcement');
+	});
+</script>
