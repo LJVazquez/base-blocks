@@ -6,6 +6,7 @@ import HeroParallaxSimpleCenteredAnnouncement from '@components/blocks/heroes/He
 import KPI from '@components/blocks/KPI.astro';
 import SplitForm from '@components/blocks/SplitForm.astro';
 import SliderShowcase from '@components/SliderShowcase.astro';
+import HeroSplitImage from '@components/blocks/heroes/HeroSplitImage.astro';
 
 const mockHeroData = {
 	title: 'Test title',
@@ -54,10 +55,53 @@ const heroComponents = [
 			},
 		],
 	},
+	{
+		name: 'Hero Split Image',
+		component: HeroSplitImage,
+		variants: [
+			{
+				name: 'default',
+				props: {
+					...mockHeroData,
+					imageSrc:
+						'https://cdn.pixabay.com/photo/2016/02/24/17/30/fruit-1220361_960_720.png',
+				},
+			},
+			{
+				name: 'no announcement',
+				props: {
+					...mockHeroData,
+					announcementText: null,
+					imageSrc:
+						'https://cdn.pixabay.com/photo/2016/02/24/17/30/fruit-1220361_960_720.png',
+				},
+			},
+			{
+				name: 'image left',
+				props: {
+					...mockHeroData,
+					imageSrc:
+						'https://cdn.pixabay.com/photo/2016/02/24/17/30/fruit-1220361_960_720.png',
+					imagePosition: 'left',
+				},
+			},
+			{
+				name: 'image left no announcement',
+				props: {
+					...mockHeroData,
+					imagePosition: 'left',
+					announcementText: null,
+					imageSrc:
+						'https://cdn.pixabay.com/photo/2016/02/24/17/30/fruit-1220361_960_720.png',
+				},
+			},
+		],
+	},
 ];
 ---
 
 <Layout>
 	<SliderShowcase items={heroComponents} />
+
 	<SplitForm />
 </Layout>
