@@ -1,0 +1,140 @@
+---
+export interface Props {
+	topColor?: string;
+	bottomColor?: string;
+	direction?: 'left-to-right' | 'right-to-left';
+	height?:
+		| number
+		| {
+				xs?: number; // < 576px
+				sm?: number; // >= 576px
+				md?: number; // >= 768px
+				lg?: number; // >= 992px
+				xl?: number; // >= 1200px
+				xxl?: number; // >= 1400px
+		  };
+	className?: string;
+}
+
+const {
+	topColor = 'bg-primary',
+	bottomColor = 'bg-secondary',
+	direction = 'left-to-right',
+	height = 80,
+	className = '',
+} = Astro.props;
+
+const isBootstrapClass = (color: string) =>
+	color.startsWith('bg-') || color.startsWith('text-');
+
+const topColorStyle = isBootstrapClass(topColor)
+	? ''
+	: `background-color: ${topColor};`;
+const bottomColorStyle = isBootstrapClass(bottomColor)
+	? ''
+	: `background-color: ${bottomColor};`;
+
+const topColorClass = isBootstrapClass(topColor) ? topColor : '';
+const bottomColorClass = isBootstrapClass(bottomColor) ? bottomColor : '';
+
+const heights =
+	typeof height === 'number'
+		? {
+				xs: Math.round(height * 0.5),
+				sm: Math.round(height * 0.6),
+				md: Math.round(height * 0.8),
+				lg: height,
+				xl: height,
+				xxl: height,
+			}
+		: {
+				xs: height.xs || 40,
+				sm: height.sm || 50,
+				md: height.md || 60,
+				lg: height.lg || 80,
+				xl: height.xl || 80,
+				xxl: height.xxl || 80,
+			};
+---
+
+<div
+	class={`diagonal-divider position-relative overflow-hidden ${className}`}
+	style={`height: ${heights.lg}px;`}
+>
+	<div
+		class={`diagonal-section-top position-absolute w-100 ${topColorClass}`}
+		style={`${topColorStyle} height: 100%;`}
+		data-direction={direction}
+	>
+	</div>
+
+	<div
+		class={`diagonal-section-bottom position-absolute w-100 ${bottomColorClass}`}
+		style={`${bottomColorStyle} height: 100%; top: 0;`}
+	>
+	</div>
+</div>
+
+<style
+	define:vars={{
+		xsHeight: `${heights.xs}px`,
+		smHeight: `${heights.sm}px`,
+		mdHeight: `${heights.md}px`,
+		lgHeight: `${heights.lg}px`,
+		xlHeight: `${heights.xl}px`,
+		xxlHeight: `${heights.xxl}px`,
+	}}
+>
+	.diagonal-divider {
+		z-index: 1;
+	}
+
+	.diagonal-section-top {
+		z-index: 2;
+		clip-path: polygon(0 0, 100% 0, 0 100%);
+	}
+
+	.diagonal-section-top[data-direction='right-to-left'] {
+		clip-path: polygon(0 0, 100% 0, 100% 100%);
+	}
+
+	.diagonal-section-bottom {
+		z-index: 1;
+	}
+
+	@media (max-width: 575.98px) {
+		.diagonal-divider {
+			height: var(--xsHeight) !important;
+		}
+	}
+
+	@media (min-width: 576px) and (max-width: 767.98px) {
+		.diagonal-divider {
+			height: var(--smHeight) !important;
+		}
+	}
+
+	@media (min-width: 768px) and (max-width: 991.98px) {
+		.diagonal-divider {
+			height: var(--mdHeight) !important;
+		}
+	}
+
+	@media (min-width: 992px) and (max-width: 1199.98px) {
+		.diagonal-divider {
+			height: var(--lgHeight) !important;
+		}
+	}
+
+	@media (min-width: 1200px) and (max-width: 1399.98px) {
+		.diagonal-divider {
+			height: var(--xlHeight) !important;
+		}
+	}
+
+	@media (min-width: 1400px) {
+		.diagonal-divider {
+			height: var(--xxlHeight) !important;
+		}
+	}
+</style>

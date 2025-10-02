@@ -7,6 +7,7 @@ import KPI from '@components/blocks/KPI.astro';
 import SplitForm from '@components/blocks/SplitForm.astro';
 import SliderShowcase from '@components/SliderShowcase.astro';
 import HeroSplitImage from '@components/blocks/heroes/HeroSplitImage.astro';
+import DiagonalDivider from '@components/blocks/heroes/dividers/DiagonalDivider.astro';
 
 const mockHeroData = {
 	title: 'Test title',
@@ -21,6 +22,13 @@ const mockHeroData = {
 	ctaSecondaryLink: '#',
 	announcementLink: '#',
 	announcementText: 'Announcement text',
+};
+
+const mockDividerData = {
+	topColor: 'bg-white',
+	bottomColor: 'bg-black',
+	direction: 'right-to-left',
+	height: 100,
 };
 
 const heroComponents = [
@@ -98,10 +106,59 @@ const heroComponents = [
 		],
 	},
 ];
+
+const dividerComponents = [
+	{
+		name: 'Diagonal',
+		component: DiagonalDivider,
+		variants: [
+			{ name: 'right to left', props: mockDividerData },
+			{
+				name: 'left to right',
+				props: { ...mockDividerData, direction: 'left-to-right' },
+			},
+			{
+				name: 'custom colors',
+				props: {
+					...mockDividerData,
+					topColor: '#ff6b6b',
+				},
+			},
+			{
+				name: 'responsive heights',
+				props: {
+					...mockDividerData,
+					height: {
+						xs: 60,
+						sm: 80,
+						md: 100,
+						lg: 120,
+						xl: 150,
+						xxl: 180,
+					},
+				},
+			},
+		],
+	},
+];
 ---
 
 <Layout>
-	<SliderShowcase items={heroComponents} />
+	<section>
+		<h2 class="h1 px-5">Heroes</h2>
+		<SliderShowcase items={heroComponents} />
+	</section>
 
-	<SplitForm />
+	<hr />
+
+	<section>
+		<h2 class="h1 px-5">Dividers</h2>
+		<SliderShowcase items={dividerComponents} />
+		<div class="bg-black text-white p-5">
+			<h3>Test section</h3>
+			<p>
+				Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque, eius.
+			</p>
+		</div>
+	</section>
 </Layout>
